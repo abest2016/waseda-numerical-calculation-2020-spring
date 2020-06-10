@@ -33,7 +33,6 @@ if __name__ == '__main__':
     try:
         print('This program solves', Function.description, " by Newton's method")
 
-        goal = float(input('f(x) should equals to: '))
         x0 = float(input('Initial value: '))
 
         print('x =', solve(x0, Function.execute, Function.execute_derivative))
