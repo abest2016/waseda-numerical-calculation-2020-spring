@@ -3,10 +3,7 @@ import numpy as np
 
 
 class MultiNewton(object):
-    def __init__(self, f, dx0_f, dx1_f, grad_f, hessian_matrix):
-        self.f = f
-        self.dx0_f = dx0_f
-        self.dx1_f = dx1_f
+    def __init__(self, grad_f, hessian_matrix):
         self.grad_f = grad_f
         self.hessian_matrix = hessian_matrix
 
@@ -32,13 +29,12 @@ class MultiNewton(object):
 
 
 if __name__ == "__main__":
-    f = lambda x: 10 * (x[1] ** 2) + 10 * (x[0] ** 4) - 20 * (x[0] ** 2) * x[1] + 1 + x[0] ** 2 - 2 * x[0]
     dx0_f = lambda x: 40 * (x[0] ** 3) - 40 * x[0] * x[1] + 2 * x[0] - 2
     dx1_f = lambda x: 20 * x[1] - 20 * (x[0] ** 2)
     grad_f = lambda x: np.array([dx0_f(x), dx1_f(x)])
     hessian_matrix = lambda x: np.array([[120 * (x[0] ** 2) - 40 * x[1] + 2, 40 * x[0]], [40 * x[0], 20 - 40 * x[0]]])
 
-    solver = MultiNewton(f, dx0_f, dx1_f, grad_f, hessian_matrix)
+    solver = MultiNewton(grad_f, hessian_matrix)
     res = solver.solve(init_x=np.array([-2, 2]), n_iter=5)
     print(f"Solution is x = [{res[0]:.2f} {res[1]:.2f}]")
 
