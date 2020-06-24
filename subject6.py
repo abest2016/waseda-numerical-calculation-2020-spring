@@ -16,7 +16,7 @@ class MultiNewton(object):
         dx = np.linalg.solve(hessian_matrix, - grad)
         return dx
 
-    def solve(self, init_x, n_iter=100, tol=0.01):
+    def solve(self, init_x, n_iter=100):
         self.hist = np.zeros(n_iter)
         bar_x = init_x
 
@@ -28,9 +28,6 @@ class MultiNewton(object):
             norm_dx = np.linalg.norm(dx)
             self.hist[i] += norm_dx
 
-            if norm_dx < tol:
-                self.hist = self.hist[:i]
-                break
         return x
 
 
