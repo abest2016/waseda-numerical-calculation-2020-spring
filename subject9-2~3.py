@@ -1,4 +1,3 @@
-# Euler法による常微分方程式の解法プログラム
 import numpy as np
 import matplotlib.pyplot as plt
 
