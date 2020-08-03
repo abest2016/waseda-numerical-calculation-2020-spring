@@ -44,7 +44,7 @@ def rungeKutta(func_dydx, x, y, dx=1e-3):
 def ode_calc(method, func_dydx, y_start, x_start, x_end, dx=1e-2):
     num_calc = 0  # 計算回数
     x_div = np.abs((x_end - x_start) / dx)  # 格子分割数
-    if (x_end < x_start):  # 負の方向に計算する時は刻み幅の符号を反転
+    if x_end < x_start:  # 負の方向に計算する時は刻み幅の符号を反転
         dx = -dx
 
     # 初期値
@@ -68,7 +68,7 @@ def ode_calc(method, func_dydx, y_start, x_start, x_end, dx=1e-2):
         num_calc += 1  # 計算回数を数える
 
         # 「計算回数が格子分割数以上」ならば終了
-        if (x_div <= num_calc):
+        if x_div <= num_calc:
             print("Finished.")
             break
 
@@ -87,7 +87,7 @@ def visualization(x_list, y_list):
 
 
 # メイン実行部
-if (__name__ == '__main__'):
+if __name__ == '__main__':
     # 常微分方程式を逐次計算
     x_list, y_list = ode_calc(euler, func_dydx, 1.0, 0.0, 2.0)
 
