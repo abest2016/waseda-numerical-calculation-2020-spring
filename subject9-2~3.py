@@ -70,7 +70,6 @@ def ode_calc(method, func_dydx, y_start, x_start, x_end, dx=1e-2):
         # 「計算回数が格子分割数以上」ならば終了
         if (x_div <= num_calc):
             print("Finished.")
-            print()
             break
 
     return x_list, y_list
