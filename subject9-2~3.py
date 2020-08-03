@@ -57,7 +57,7 @@ def ode_calc(method, func_dydx, y_start, x_start, x_end, dx=1e-2):
     y_list = [y]
 
     # ずっと繰り返す
-    while (True):
+    while True:
         x, y = method(func_dydx, x, y, dx)
         print("x = {:.7f},  y = {:.7f}".format(x, y))
 
