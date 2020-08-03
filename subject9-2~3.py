@@ -2,13 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def func_dydt(x, y):
+def func_dydx(x, y):
     return y / (2 * (x + 1))
 
 
 # Euler法（導関数、xの初期値、yの初期値、刻み幅dx）
-def euler(func_dydt, x, y, dx=1e-3):
-    dy = func_dydt(x, y) * dx  # 変化量を計算
+def euler(func_dydx, x, y, dx=1e-3):
+    dy = func_dydx(x, y) * dx  # 変化量を計算
 
     x += dx  # 変数を更新
     y += dy  # 変化量を加えて更新
@@ -17,22 +17,22 @@ def euler(func_dydt, x, y, dx=1e-3):
 
 
 # Heun法（導関数、xの初期値、yの初期値、刻み幅dx）
-def heun(func_dydt, x, y, dx=1e-3):
+def heun(func_dydx, x, y, dx=1e-3):
 
-    dy1 = dx * func_dydt(x, y)
-    y += (func_dydt(x, y) + func_dydt(x + dx, y + dy1)) * dx / 2
+    dy1 = dx * func_dydx(x, y)
+    y += (func_dydx(x, y) + func_dydx(x + dx, y + dy1)) * dx / 2
     x += dx
 
     return x, y
 
 
 # 4次RungeKutta法（導関数、xの初期値、yの初期値、刻み幅dx）
-def rungeKutta(func_dydt, x, y, dx=1e-3):
+def rungeKutta(func_dydx, x, y, dx=1e-3):
 
-    dv1 = dx * func_dydt(x, y)
-    dv2 = dx * func_dydt(x + dx / 2, y + dv1 / 2)
-    dv3 = dx * func_dydt(x + dx / 2, y + dv2 / 2)
-    dv4 = dx * func_dydt(x + dx, y + dv3)
+    dv1 = dx * func_dydx(x, y)
+    dv2 = dx * func_dydx(x + dx / 2, y + dv1 / 2)
+    dv3 = dx * func_dydx(x + dx / 2, y + dv2 / 2)
+    dv4 = dx * func_dydx(x + dx, y + dv3)
 
     y += (dv1 + 2 * (dv2 + dv3) + dv4) / 6
     x += dx
@@ -40,15 +40,15 @@ def rungeKutta(func_dydt, x, y, dx=1e-3):
     return x, y
 
 
-# 常微分方程式を逐次計算（導関数、yの初期値、tの開始点、tの終了点、刻み幅dt）
-def ode_calc(method, func_dydt, y_start, x_start, x_end, dx=1e-2):
+# 常微分方程式を逐次計算（導関数、yの初期値、xの開始点、xの終了点、刻み幅dx）
+def ode_calc(method, func_dydx, y_start, x_start, x_end, dx=1e-2):
     num_calc = 0  # 計算回数
     x_div = np.abs((x_end - x_start) / dx)  # 格子分割数
     if (x_end < x_start):  # 負の方向に計算する時は刻み幅の符号を反転
         dx = -dx
 
     # 初期値
-    x = x_start  # 独立変数t
+    x = x_start  # 独立変数x
     y = y_start  # 従属変数y
     print("x = {:.7f},  y = {:.7f}".format(x, y))
 
@@ -58,7 +58,7 @@ def ode_calc(method, func_dydt, y_start, x_start, x_end, dx=1e-2):
 
     # ずっと繰り返す
     while (True):
-        x, y = method(func_dydt, x, y, dx)
+        x, y = method(func_dydx, x, y, dx)
         print("x = {:.7f},  y = {:.7f}".format(x, y))
 
         # グラフ用データを追加
@@ -90,19 +90,19 @@ def visualization(x_list, y_list):
 # メイン実行部
 if (__name__ == '__main__'):
     # 常微分方程式を逐次計算
-    x_list, y_list = ode_calc(euler, func_dydt, 1.0, 0.0, 2.0)
+    x_list, y_list = ode_calc(euler, func_dydx, 1.0, 0.0, 2.0)
 
     # 結果を可視化
     visualization(x_list, y_list)
 
     # 常微分方程式を逐次計算
-    x_list, y_list = ode_calc(heun, func_dydt, 1.0, 0.0, 2.0)
+    x_list, y_list = ode_calc(heun, func_dydx, 1.0, 0.0, 2.0)
 
     # 結果を可視化
     visualization(x_list, y_list)
 
     # 常微分方程式を逐次計算
-    x_list, y_list = ode_calc(rungeKutta, func_dydt, 1.0, 0.0, 2.0)
+    x_list, y_list = ode_calc(rungeKutta, func_dydx, 1.0, 0.0, 2.0)
 
     # 結果を可視化
     visualization(x_list, y_list)
